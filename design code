@@ -1,0 +1,21 @@
+module four_bit_carry_lookahead_adder (
+  input [3:0] operand_a,
+  input [3:0] operand_b,
+  output wire [3:0] sum,
+  output wire carry_out
+);
+
+  wire [3:0] generate;
+  wire [3:0] propagate;
+  
+  assign generate = operand_a & operand_b;
+  assign propagate = operand_a ^ operand_b;
+  
+  assign sum[0] = operand_a[0] ^ operand_b[0];
+  assign sum[1] = propagate[0] ^ (operand_a[1] & operand_b[1]);
+  assign sum[2] = propagate[1] ^ (operand_a[2] & operand_b[2]);
+  assign sum[3] = propagate[2] ^ (operand_a[3] & operand_b[3]);
+  
+  assign carry_out = generate[3] | (propagate[3] & (operand_a[3] | operand_b[3]));
+
+endmodule
